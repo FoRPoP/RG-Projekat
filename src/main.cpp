@@ -5,7 +5,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include <glm/glm.hpp>glEnable(GL_CULL_FACE);
+#include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -188,27 +188,10 @@ int main() {
 
     Shader modelShader("resources/shaders/2.model_lighting.vs", "resources/shaders/2.model_lighting.fs");
 
+    // model loading
 
-    // load models
-    // -----------
-    //Model ourModel("resources/objects/backpack/backpack.obj");
-    //ourModel.SetShaderTextureNamePrefix("material.");
-
-    //PointLight& pointLight = programState->pointLight;
-    //pointLight.position = glm::vec3(4.0f, 4.0, 0.0);
-    //pointLight.ambient = glm::vec3(0.1, 0.1, 0.1);
-    //pointLight.diffuse = glm::vec3(0.6, 0.6, 0.6);
-    //pointLight.specular = glm::vec3(1.0, 1.0, 1.0);
-
-    //pointLight.constant = 1.0f;
-    //pointLight.linear = 0.09f;
-    //pointLight.quadratic = 0.032f;
-
-    Model plane1("resources/objects/avion1/Airplane_v1_L1.123c4a6fedec-1680-4a36-a228-b0d440a4f280/11803_Airplane_v1_l1.obj");
     Model plane2("resources/objects/avion2/Airplane_v2_L2.123c9fd3dbfa-7118-4fde-af56-f04ef61f45dd/11804_Airplane_v2_l2.obj");
-    Model spaceShip1("resources/objects/SpaceShip/Intergalactic_Spaceship-(Wavefront).obj");
     Model airbaloon1("resources/objects/air baloon/Hot_air_balloon_v1_L2.123c69a97f0e-9977-45dd-9570-457189ce2941/11809_Hot_air_balloon_l2.obj");
-
 
 
     float cubeVertices[] = {
@@ -322,7 +305,6 @@ int main() {
     glBindVertexArray(lightCubeVAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
-    // note that we update the lamp's position attribute's stride to reflect the updated buffer data
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
@@ -337,7 +319,7 @@ int main() {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 
     // load textures
-    // -------------
+
     unsigned int diffuseMap = loadTexture(FileSystem::getPath("resources/textures/container.png").c_str());
     unsigned int specularMap = loadTexture(FileSystem::getPath("resources/textures/container_specular.png").c_str());
 
@@ -352,6 +334,8 @@ int main() {
             };
 
     unsigned int cubemapTexture = loadCubemap(faces);
+
+    // setting model uniforms
 
     modelShader.use();
     modelShader.setInt("material.diffuse", 0);
@@ -374,11 +358,8 @@ int main() {
     skyboxShader.use();
     skyboxShader.setInt("skybox", 0);
 
-    // draw in wireframe
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
     // render loop
-    // -----------
+
     while (!glfwWindowShouldClose(window)) {
         // per-frame time logic
         // --------------------
@@ -400,7 +381,7 @@ int main() {
         multipleLightingShader.setFloat("material.shininess", 32.0f);
 
         // directional light
-        multipleLightingShader.setVec3("dirLight.direction", -10.0f, -10.0f, 0.0f);
+        multipleLightingShader.setVec3("dirLight.direction", -10.0f, -100.0f, 0.0f);
         multipleLightingShader.setVec3("dirLight.ambient", 0.05f, 0.05f, 0.05f);
         multipleLightingShader.setVec3("dirLight.diffuse", 1.0f, 1.0f, 1.0f);
         multipleLightingShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
@@ -478,7 +459,6 @@ int main() {
         glBindTexture(GL_TEXTURE_2D, diffuseMap);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
-
         // also draw the lamp object
         lightCubeShader.use();
         lightCubeShader.setMat4("projection", projection);
@@ -494,12 +474,14 @@ int main() {
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
 
+        //setting uniforms for model lighting
+
         modelShader.use();
         modelShader.setMat4("view", view);
         modelShader.setMat4("projection", projection);
         modelShader.setVec3("viewPos", programState->camera.Position);
         modelShader.setFloat("material.shininess", 32.0f);
-        modelShader.setVec3("dirLight.direction", -100.0f, -100.0f, 0.0f);
+        modelShader.setVec3("dirLight.direction", -10.0f, -100.0f, 0.0f);
         modelShader.setVec3("dirLight.ambient", 0.44f, 0.44, 0.44);
         modelShader.setVec3("dirLight.diffuse", 1.0f, 1.0f, 1.0f);
         modelShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
@@ -508,7 +490,6 @@ int main() {
         glm::mat4 model1 = glm::mat4(1.0f);
         model1 = glm::translate(model1, glm::vec3(60.0, 24.0f, -34.0f));
         model1 = glm::scale(model1, glm::vec3(0.01f, 0.01f, 0.01f));
-        //model1 = glm::rotate(model1, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model1);
         plane2.Draw(modelShader);
 
@@ -526,25 +507,8 @@ int main() {
         model4 = glm::scale(model4, glm::vec3(0.004f, 0.004f, 0.004f));
         model4 = glm::rotate(model4, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         model4 = glm::rotate(model4, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        //model4 = glm::rotate(model4, (float)glfwGetTime() / 4, glm::vec3(0.0f, 0.0f, 1.0f));
         modelShader.setMat4("model", model4);
         airbaloon1.Draw(modelShader);
-
-
-        //cubeShader.use();
-        //glm::mat4 model = glm::mat4(1.0f);
-        //glm::mat4 view = programState->camera.GetViewMatrix();
-        //glm::mat4 projection = glm::perspective(glm::radians(programState->camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-        //cubeShader.setMat4("model", model);
-        //cubeShader.setMat4("view", view);
-        //cubeShader.setMat4("projection", projection);
-
-        // cubes
-        //glBindVertexArray(cubeVAO);
-        //glActiveTexture(GL_TEXTURE0);
-        //glBindTexture(GL_TEXTURE_2D, cubeTexture);
-        //glDrawArrays(GL_TRIANGLES, 0, 36);
-        //glBindVertexArray(0);
 
         glDisable(GL_CULL_FACE);
 
@@ -554,6 +518,7 @@ int main() {
         view = glm::mat4(glm::mat3(programState->camera.GetViewMatrix())); // remove translation from the view matrix
         skyboxShader.setMat4("view", view);
         skyboxShader.setMat4("projection", projection);
+
         // skybox cube
         glBindVertexArray(skyboxVAO);
         glActiveTexture(GL_TEXTURE0);
@@ -568,7 +533,6 @@ int main() {
 
         if (programState->ImGuiEnabled)
             DrawImGui(programState);
-
 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

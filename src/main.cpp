@@ -210,7 +210,7 @@ int main() {
 
 
     float cubeVertices[] = {
-            // positions          // normaourModel.SetShaderTextureNamePrefix("material.");ls           // texture coords
+
             -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
             0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f,
             0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
@@ -456,13 +456,21 @@ int main() {
         glBindVertexArray(cubeVAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
+        advancedLight.use();
+        advancedLight.setMat4("projection", projection);
+        advancedLight.setMat4("view", view);
+        advancedLight.setVec3("viewPos", programState->camera.Position);
+        advancedLight.setVec3("lightPos", pointLightPositions[0]);
+
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(51.0f, 23.0f, 0.0f));
         model = glm::scale(model, glm::vec3(0.24f, 0.24f, 0.24f));
         model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1.0f, 1.0f, 0.0f));
-        multipleLightingShader.setMat4("model", model);
+        advancedLight.setMat4("model", model);
 
         glBindVertexArray(cubeVAO);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, diffuseMap);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
 

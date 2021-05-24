@@ -10,13 +10,14 @@ out VS_OUT {
     vec2 TexCoords;
 } vs_out;
 
+uniform mat4 model;
 uniform mat4 projection;
 uniform mat4 view;
 
 void main()
 {
-    vs_out.FragPos = aPos;
-    vs_out.Normal = aNormal;
+    vs_out.FragPos = vec3(model * vec4(aPos, 1.0));
+    vs_out.Normal = mat3(transpose(inverse(model))) * aNormal;
     vs_out.TexCoords = aTexCoords;
-    gl_Position = projection * view * vec4(aPos, 1.0);
+    gl_Position = projection * view * vec4(vs_out.FragPos, 1.0);
 }

@@ -10,4 +10,4 @@ Prazan projekat sa pratećim bibliotekama koje koristimo na času.
 6. Šejderi idu u folder shaders. `Vertex shader` ima ekstenziju `.vs`, `fragment shader` ima ekstenziju `.fs`
 7. ALT+SHIFT+F10 -> project_base -> run
 
-Link za Resource folder: https://drive.google.com/drive/folders/1A2zroSLfssuVIu7tl7FXlbm5Y34isCIb?usp=sharing
+Link za Resource folder: https://drive.google.com/drive/folders/11gKrQBhA67WtAn4OpGdwY-7t__lF8FLn?usp=sharing

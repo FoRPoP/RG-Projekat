@@ -221,18 +221,18 @@ int main() {
             -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
 
             -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
-            0.5f, 0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f, // 2 8
-            0.5f,  -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f, // 2 8
+            0.5f, 0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
+            0.5f,  -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f,
             0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
-            -0.5f,  -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f, // 2 8
-            -0.5f, 0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f, // 2 8
+            -0.5f,  -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+            -0.5f, 0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f,
 
             -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-            -0.5f,  -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f, // 2 7
-            -0.5f, 0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f, // 2 7
+            -0.5f,  -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+            -0.5f, 0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
             -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-            -0.5f, 0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f, // 2 7
-            -0.5f,  -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f, // 2 7
+            -0.5f, 0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+            -0.5f,  -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
 
             0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
             0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
@@ -242,11 +242,11 @@ int main() {
             0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
 
             -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
-            0.5f, -0.5f, 0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f, // 2 8
-            0.5f, -0.5f,  -0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f, // 2 8
+            0.5f, -0.5f, 0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+            0.5f, -0.5f,  -0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f,
             0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
-            -0.5f, -0.5f,  -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f, // 2 8
-            -0.5f, -0.5f, 0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f, // 2 8
+            -0.5f, -0.5f,  -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
+            -0.5f, -0.5f, 0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f,
 
             -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f,
             0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f,
@@ -353,6 +353,10 @@ int main() {
 
     unsigned int cubemapTexture = loadCubemap(faces);
 
+    modelShader.use();
+    modelShader.setInt("material.diffuse", 0);
+    modelShader.setInt("material.specular", 1);
+
     advancedLight.use();
     advancedLight.setInt("material.diffuse", 0);
 
@@ -401,7 +405,7 @@ int main() {
         multipleLightingShader.setVec3("dirLight.diffuse", 1.0f, 1.0f, 1.0f);
         multipleLightingShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
         // point light 1
-        multipleLightingShader.setVec3("pointLights[0].position", pointLightPositions[0]);
+        multipleLightingShader.setVec3("pointLights[0].position", pointLightPositions[0] + glm::vec3(0.0f, 4 * sin(glfwGetTime()), 0.0f));
         multipleLightingShader.setVec3("pointLights[0].ambient", 0.05f, 0.0f, 0.00f);
         multipleLightingShader.setVec3("pointLights[0].diffuse", 0.8f, 0.8f, 0.8f);
         multipleLightingShader.setVec3("pointLights[0].specular", 1.0f, 1.0f, 1.0f);
@@ -409,7 +413,7 @@ int main() {
         multipleLightingShader.setFloat("pointLights[0].linear", 0.09);
         multipleLightingShader.setFloat("pointLights[0].quadratic", 0.032);
         // point light 2
-        multipleLightingShader.setVec3("pointLights[1].position", pointLightPositions[1]);
+        multipleLightingShader.setVec3("pointLights[1].position", pointLightPositions[1] + glm::vec3(0.0f, 4 * sin(glfwGetTime()), 0.0f));
         multipleLightingShader.setVec3("pointLights[1].ambient", 0.05f, 0.05f, 0.05f);
         multipleLightingShader.setVec3("pointLights[1].diffuse", 0.8f, 0.8f, 0.8f);
         multipleLightingShader.setVec3("pointLights[1].specular", 1.0f, 1.0f, 1.0f);
@@ -417,7 +421,7 @@ int main() {
         multipleLightingShader.setFloat("pointLights[1].linear", 0.09);
         multipleLightingShader.setFloat("pointLights[1].quadratic", 0.032);
         // point light 3
-        multipleLightingShader.setVec3("pointLights[2].position", pointLightPositions[2]);
+        multipleLightingShader.setVec3("pointLights[2].position", pointLightPositions[2] + glm::vec3(0.0f, 4 * sin(glfwGetTime()), 0.0f));
         multipleLightingShader.setVec3("pointLights[2].ambient", 0.05f, 0.05f, 0.05f);
         multipleLightingShader.setVec3("pointLights[2].diffuse", 0.8f, 0.8f, 0.8f);
         multipleLightingShader.setVec3("pointLights[2].specular", 1.0f, 1.0f, 1.0f);
@@ -425,7 +429,7 @@ int main() {
         multipleLightingShader.setFloat("pointLights[2].linear", 0.09);
         multipleLightingShader.setFloat("pointLights[2].quadratic", 0.032);
         // point light 4
-        multipleLightingShader.setVec3("pointLights[3].position", pointLightPositions[3]);
+        multipleLightingShader.setVec3("pointLights[3].position", pointLightPositions[3] + glm::vec3(0.0f, 4 * sin(glfwGetTime()), 0.0f));
         multipleLightingShader.setVec3("pointLights[3].ambient", 0.05f, 0.05f, 0.05f);
         multipleLightingShader.setVec3("pointLights[3].diffuse", 0.8f, 0.8f, 0.8f);
         multipleLightingShader.setVec3("pointLights[3].specular", 1.0f, 1.0f, 1.0f);
@@ -461,7 +465,7 @@ int main() {
         advancedLight.setMat4("projection", projection);
         advancedLight.setMat4("view", view);
         advancedLight.setVec3("viewPos", programState->camera.Position);
-        advancedLight.setVec3("lightPos", pointLightPositions[0]);
+        advancedLight.setVec3("lightPos", pointLightPositions[0] + glm::vec3(0.0f, 4 * sin(glfwGetTime()), 0.0f));
 
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(51.0f, 23.0f, 0.0f));
@@ -483,7 +487,7 @@ int main() {
         for(int i = 0; i < 4; i++)
         {
             model = glm::mat4(1.0f);
-            model = glm::translate(model, pointLightPositions[i]);
+            model = glm::translate(model, pointLightPositions[i] + glm::vec3(0.0f, 4 * sin(glfwGetTime()), 0.0f));
             model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
             lightCubeShader.setMat4("model", model);
 
@@ -493,6 +497,12 @@ int main() {
         modelShader.use();
         modelShader.setMat4("view", view);
         modelShader.setMat4("projection", projection);
+        modelShader.setVec3("viewPos", programState->camera.Position);
+        modelShader.setFloat("material.shininess", 32.0f);
+        modelShader.setVec3("dirLight.direction", -100.0f, -100.0f, 0.0f);
+        modelShader.setVec3("dirLight.ambient", 0.44f, 0.44, 0.44);
+        modelShader.setVec3("dirLight.diffuse", 1.0f, 1.0f, 1.0f);
+        modelShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
 
         // airplane1
         glm::mat4 model1 = glm::mat4(1.0f);
@@ -508,23 +518,15 @@ int main() {
         model2 = glm::scale(model2, glm::vec3(0.01f, 0.01f, 0.01f));
         model2 = glm::rotate(model2, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model2);
-        plane1.Draw(modelShader);
-
-        // spaceShip1
-        //glm::mat4 model3 = glm::mat4(1.0f);
-        //model3 = glm::translate(model3, glm::vec3(0.0f, 20.0f, 20.0f));
-        //model3 = glm::scale(model3, glm::vec3(0.5f, 0.5f, 0.5f));
-        //model3 = glm::rotate(model3, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
-        //modelShader.setMat4("model", model3);
-        //spaceShip1.Draw(modelShader);
+        plane2.Draw(modelShader);
 
         // airbaloon1
         glm::mat4 model4 = glm::mat4(1.0f);
-        model4 = glm::translate(model4, glm::vec3(50.0f, 24.0f, 0.0f));
+        model4 = glm::translate(model4, glm::vec3(50.0f, 24.0f + 4 * sin(glfwGetTime()), 0.0f));
         model4 = glm::scale(model4, glm::vec3(0.004f, 0.004f, 0.004f));
         model4 = glm::rotate(model4, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         model4 = glm::rotate(model4, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        model4 = glm::rotate(model4, (float)glfwGetTime() / 4, glm::vec3(0.0f, 0.0f, 1.0f));
+        //model4 = glm::rotate(model4, (float)glfwGetTime() / 4, glm::vec3(0.0f, 0.0f, 1.0f));
         modelShader.setMat4("model", model4);
         airbaloon1.Draw(modelShader);
 

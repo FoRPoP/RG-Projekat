@@ -5,7 +5,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include <glm/glm.hpp>
+#include <glm/glm.hpp>glEnable(GL_CULL_FACE);
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -163,13 +163,15 @@ int main() {
     (void) io;
 
 
-
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330 core");
 
     // configure global opengl state
     // -----------------------------
     glEnable(GL_DEPTH_TEST);
+
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_BACK);
 
     // build and compile shaders
     // -------------------------
@@ -219,18 +221,18 @@ int main() {
             -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
 
             -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
-            0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f,
+            0.5f, 0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f, // 2 8
+            0.5f,  -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f, // 2 8
             0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
-            0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
-            -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f,
-            -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+            -0.5f,  -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f, // 2 8
+            -0.5f, 0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f, // 2 8
 
             -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-            -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+            -0.5f,  -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f, // 2 7
+            -0.5f, 0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f, // 2 7
             -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-            -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-            -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-            -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+            -0.5f, 0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f, // 2 7
+            -0.5f,  -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f, // 2 7
 
             0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
             0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
@@ -240,11 +242,11 @@ int main() {
             0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
 
             -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
-            0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f,
+            0.5f, -0.5f, 0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f, // 2 8
+            0.5f, -0.5f,  -0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f, // 2 8
             0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
-            0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
-            -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f,
-            -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
+            -0.5f, -0.5f,  -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f, // 2 8
+            -0.5f, -0.5f, 0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f, // 2 8
 
             -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f,
             0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f,
@@ -253,6 +255,7 @@ int main() {
             -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f,
             -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
     };
+    glFrontFace(GL_CW);
 
     float skyboxVertices[] = {
             // positions
@@ -382,8 +385,6 @@ int main() {
         // input
         // -----
         processInput(window);
-
-
 
         // render
         // ------
@@ -543,6 +544,8 @@ int main() {
         //glDrawArrays(GL_TRIANGLES, 0, 36);
         //glBindVertexArray(0);
 
+        glDisable(GL_CULL_FACE);
+
         // draw skybox as last
         glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
         skyboxShader.use();
@@ -556,6 +559,8 @@ int main() {
         glDrawArrays(GL_TRIANGLES, 0, 36);
         glBindVertexArray(0);
         glDepthFunc(GL_LESS); // set depth function back to default
+
+        glEnable(GL_CULL_FACE);
 
 
 
